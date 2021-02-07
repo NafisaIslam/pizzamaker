@@ -3,36 +3,88 @@
     padding: 0;
     box-sizing: border-box;
 }
+.ind {
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    z-index: 99999;
+    color:rgb(46, 46, 46);
+}
+.action-button{
+    color: #fff;
+    background: #e9a9a9;
+    padding: 5px 3px;
+}
+.anda ul {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-family: 'Pacifico', cursive !important;
+    font-size: 30px;
+    text-decoration: none;
+    z-index: 9999;
+}
 
 header {
     width: 100%;
     height: 100vh;
     background: lightblue;
-    background-image: linear-gradient( rgba(97, 47, 18, .692), rgba(97, 47, 18, .692)), url("coffee.jpg");
+    background-image: linear-gradient( rgba(97, 47, 18, .692), rgba(97, 47, 18, .692)), url("coffee.png");
     background-size: cover;
     background-position: center;
 }
-
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+    width: 100%;
+    background-color:coral;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: orange;
+  }
 .navbar {
     height: 10%;
     display: flex;
 }
-
-.nav-left {
-    flex-basis: 30%;
-    background: white;
-    position: relative;
-}
-
 .nav-icons {
     left: 5%;
     top: 10%;
     position: absolute;
 }
+.formdata {
 
+    display: inline-block;
+    margin-left: 30%;
+    
+}
+.formdata h2 {
+    color: coral;
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    text-align: center;
+
+}
 .nav-icons ul li {
     display: inline-block;
     margin-right: 15px;
+    z-index: 99999;
 }
 
 .nav-icons ul li i {
@@ -45,20 +97,22 @@ header {
 }
 
 .nav-menu {
-    top: 20%;
-    right: 2%;
+    /* top: 20%;
+    right: 2%; */
+    text-align: center;
     position: absolute;
 }
 
 .nav-menu ul li {
     display: inline-block;
-    margin-left: 15px;
+    /* margin-left: 15px; */
 }
 
 .nav-menu ul li a {
     text-decoration: none;
-    color: white;
     font-family: sans-serif;
+    font-size: xx-large;
+    z-index: 99999;
 }
 
 .nav-menu ul li a:hover {
@@ -68,21 +122,50 @@ header {
 
 .logo {
     font-family: 'Pacifico', cursive !important;
-    font-size: 30px;
+    font-size: 50px;
 }
+
+.logo1 {
+    font-family: 'Pacifico', cursive !important;
+    font-size: 30px;
+    position: center;
+}
+
+
+/* #menu {
+    color: white;
+    text-align: rightS;
+} */
 
 .content {
     height: 90%;
     display: flex;
+    z-index: 99999;
 }
 
 .content-left {
     flex-basis: 30%;
     background: white;
     position: relative;
+    z-index: -999999;
 }
-
-.social-media {
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color: rgb(78, 25, 6);
+  }
+  
+  tr:nth-child(even) {
+    background-color: #e9a9a9;
+  }
+/* .social-media {
     left: 5%;
     bottom: 5%;
     position: absolute;
@@ -96,15 +179,15 @@ header {
     background: grey;
     text-align: center;
     line-height: 30px;
-}
+} */
 
-.social-media ul li i {
+/* .social-media ul li i {
     color: white
 }
 
 .social-media ul li i:hover {
     color: chocolate
-}
+} */
 
 .content-right {
     flex-basis: 70%;
@@ -115,6 +198,7 @@ header {
     right: 10%;
     bottom: 5%;
     position: absolute;
+    color:coral
 }
 
 .text h1 {
@@ -122,6 +206,13 @@ header {
     font-family: 'Dancing Script', cursive;
     font-size: 60px;
 }
+.headl {
+    color: coral;
+    font-family: 'Dancing Script', cursive;
+    font-size: 30px;
+    text-align: center;
+}
+
 
 .text p {
     color: white;
