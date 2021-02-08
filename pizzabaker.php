@@ -1,14 +1,9 @@
 <?php
-$host = "pgsql.hrz.tu-chemnitz.de";
-$port = "5432"; 
-$databaseName = "pizza_maker01";
-$userName = "pizza_maker01_rw";
-$password = "aeHoh6uaju";
+require 'dbconnection.php';
 $tableName1 = "orders";
 $tableName2 = "ingredients";
 $tableName3 = "suppliers";
 
-$db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $databaseName . " user=" . $userName . " password=" . $password) or die("Die Verbindung konnte nicht aufgebaut werden.");
 
 // if(pg_connection_status($db_handle) === PGSQL_CONNECTION_OK)
 // {
@@ -39,7 +34,7 @@ $db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $datab
              <th> Total Price</th>
          </tr>
          <?php 
-            $result = pg_query($db_handle, "SELECT *from " . $tableName1);
+            $result = pg_query($db_handle, "SELECT orderid, pizzaid, pizzasize,totalprice from " . $tableName1);
 
             $result_status = pg_result_status($result);
             if($result_status === PGSQL_COMMAND_OK || $result_status === PGSQL_TUPLES_OK)
@@ -49,10 +44,10 @@ $db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $datab
 
             for($ri = 0; $ri < $numrows; $ri++)
             {
-            echo "<tr>";
-            foreach(pg_fetch_row($result, $ri) as $value)
-                echo "<td>" . $value . "</td>";
-            echo "</tr>\r\n";
+                echo "<tr>";
+                foreach(pg_fetch_row($result, $ri) as $value)
+                    echo "<td>" . $value . "</td>";
+                echo "</tr>\r\n";
             }
         }
          ?>
@@ -62,11 +57,7 @@ $db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $datab
      <br><br><h2 class= "headl">Ingredients List </h2>
      <ul class='navman'>
          <li>
-             <a class='action-button' href="addingerient.php">Add Ingredient</a>
-         </li>
-         <br>
-         <li>
-             <a class='action-button' href="restockingredient.php">Restock</a>
+             <a class='action-button' href="addingredient.php">Add Ingredient</a>
          </li>
      </ul>
      <br><table>
@@ -80,28 +71,34 @@ $db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $datab
          <?php 
             $result = pg_query($db_handle, "SELECT ingredientname,baseprice,quantity, isavailable, ingredientid from  " . $tableName2);
 
-            $result_status = pg_result_status($result);
-            if($result_status === PGSQL_COMMAND_OK || $result_status === PGSQL_TUPLES_OK)
+            while($row = pg_fetch_assoc($result) )
             {
-            $numfields = pg_num_fields($result);
-            $numrows = pg_num_rows($result);
+                echo "<tr>";
+                echo "<td>" . $row['ingredientname'] . "</td>";
+                echo "<td>" . $row['baseprice'] . "</td>";
+                echo "<td>" . $row['quantity'] . "</td>";
+                echo "<td>" . $row['isavailable'] . "</td>";
 
-            for($ri = 0; $ri < $numrows; $ri++)
-            {
-            echo "<tr>";
-            foreach(pg_fetch_row($result, $ri) as $value)
-                echo "<td>" . $value . "</td>";
-                echo "<td><a class='action-button' href='editingredient.php?ingredientid={$value}'> Edit </a> / <a class='action-button' href='removeingredient.php'> Remove </a>/
-                <a class='action-button' href='hideorshow.php'>hide or show</a>
-                </td>";
-                echo "</tr>\r\n";
+                echo "<td><a class='action-button' href='editingredient.php?ingredientid={$row['ingredientid']}'> Edit </a>/ 
+
+                <a class='action-button' href='removeingredient.php?ingredientid={$row['ingredientid']}'> Remove </a>/
+                 ";
+                 if ($row['isavailable'] == 0)
+                 {
+                echo "<a class='action-button' href='showingredient.php?ingredientid={$row['ingredientid']}'>Show</a> /";
+                 }
+                else 
+                {
+                echo "<a class='action-button' href='hideingredient.php?ingredientid={$row['ingredientid']}'>Hide</a>/
+                ";
+                }
+                echo "<a class='action-button' href='restockingredientform.php?ingredientid={$row['ingredientid']}'> Restock </a>
+                 ";
+                echo "</td></tr>\r\n";
             }
-        }
+        
          ?>
      </table>
-
-
-
      <br><br><h2 class= "headl">Suppliers List </h2>
      <br><table>
          <tr> 
@@ -111,7 +108,7 @@ $db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $datab
              <th> Status</th>
          </tr>
          <?php 
-            $result = pg_query($db_handle, "SELECT suppliername	,ingredientname	,baseprice,isavailable from " . $tableName3);
+            $result = pg_query($db_handle, "SELECT suppliername,ingredientname,baseprice,isavailable from " . $tableName3);
 
             $result_status = pg_result_status($result);
             if($result_status === PGSQL_COMMAND_OK || $result_status === PGSQL_TUPLES_OK)

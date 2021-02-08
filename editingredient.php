@@ -1,19 +1,32 @@
 <?php
-$host = "pgsql.hrz.tu-chemnitz.de";
-$port = "5432"; 
-$databaseName = "pizza_maker01";
-$userName = "pizza_maker01_rw";
-$password = "aeHoh6uaju";
-$tableName1 = "orders";
-$tableName2 = "ingredients";
-$tableName3 = "suppliers";
-
-$db_handle = pg_connect("host=" . $host . " port=" . $port . " dbname=" . $databaseName . " user=" . $userName . " password=" . $password) or die("Die Verbindung konnte nicht aufgebaut werden.");
+require 'dbconnection.php';
 
 $ingredientid = 0;
 if(isset($_GET['ingredientid'])){
   $ingredientid = $_GET['ingredientid'];
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $ingredientname = test_input($_POST["ingredientname"]);
+  $baseprice = test_input($_POST["baseprice"]);
+  $regionname = test_input($_POST["regionname"]);
+  $quantiy = test_input($_POST["quantity"]);
+  $ingredientid = test_input($_POST["ingredientid"]);
+  $pizzaid = test_input($_POST["pizzaid"]);
+  $supplierid = test_input($_POST["supplierid"]);
+  $isavailable = test_input($_POST["isavailable"]);
+
+  pg_query($db_handle, "SELECT editingredients ('{$ingredientid}','{$pizzaid}','{$ingredientname}','{$baseprice}', '{$regionname}','{$quantiy}','{$isavailable}','{$supplierid}')");
+}
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+
+  
+
 
 ?>
 <!DOCTYPE html>
@@ -26,35 +39,45 @@ if(isset($_GET['ingredientid'])){
 <div class= "formdata">
 <br><h2>Edit Ingredients</h2><br>
 
-<form action="/action_page.php">
+<form action="" method = 'POST'>
 <?php
  $result = pg_query($db_handle, "SELECT * from ingredients where ingredientid = ".$ingredientid );
-
- $result_status = pg_result_status($result);
- if($result_status === PGSQL_COMMAND_OK || $result_status === PGSQL_TUPLES_OK)
+  while ($row = pg_fetch_assoc($result))
  {
- $numfields = pg_num_fields($result);
- $numrows = pg_num_rows($result);
-
- for($ri = 0; $ri < $numrows; $ri++)
- {
-  foreach(pg_fetch_row($result, $ri) as $value)
-  echo $value;
  ?>
-    <label for="sname">Supplier Name</label>
-    <input type="text" id="sname" name="supname" value=<?php echo $value; ?> placeholder="supplier name.."><br>
+    <input type="hidden" id="iname" name="ingredientid" value=<?php echo $row['ingredientid']; ?> >
+    <input type="hidden" id="iname" name="pizzaid" value=<?php echo $row['pizzaid']; ?> >
+    <input type="hidden" id="iname" name="supplierid" value=<?php echo $row['supplierid']; ?> >
+    <input type="hidden" id="iname" name="isavailable" value=<?php echo $row['isavailable']; ?> >
+    <?php
+      $pizzasql = pg_query($db_handle, "SELECT * from pizzen where pizzaid = " . $row['pizzaid']);
+       
+      while ($row1 = pg_fetch_assoc($pizzasql))
+       {
+    ?>
 
+    <label for="pname">Pizza Name</label>
+    <input type="text" id="pname" name="pizzaname" value=<?php echo $row1['pizzaname']; ?> placeholder="Pizza name.."><br>
+    <?php
+      }
+    ?>
     <label for="iname">Ingredient</label>
-    <input type="text" id="iname" name="igname" value=<?php echo $value; ?> placeholder="ingredient name.."><br>
+    <input type="text" id="iname" name="ingredientname" value=<?php echo $row['ingredientname']; ?> placeholder="ingredient name.."><br>
 
     <label for="pname">Price</label>
-    <input type="text" id="pname" name="pricename" value=<?php echo $value; ?> placeholder="price.."><br>
+    <input type="text" id="pname" name="baseprice" value=<?php echo $row['baseprice']; ?> placeholder="price.."><br>
+
+    <label for="rname">Region Name</label>
+    <input type="text" id="rname" name="regionname" value=<?php echo $row['regionname']; ?> placeholder="Region name.."><br>
+    
+    <label for="qname">Quality</label>
+    <input type="text" id="qname" name="quantity" value=<?php echo $row['quantity']; ?> placeholder="Quantity.."><br>
 
     <input type="submit" value="Submit">
   
  <?php
  }
-}
+
 ?>
 </form>
 </div>
