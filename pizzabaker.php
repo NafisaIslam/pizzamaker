@@ -105,7 +105,7 @@ require 'dbconnection.php';
                 echo "<a class='action-button' href='hideingredient.php?ingredientid={$row['ingredientid']}'>Hide</a>/
                 ";
                 }
-                echo "<a class='action-button' href='restockingredientform.php?ingredientid={$row['ingredientid']}'> Restock </a>
+                echo "<a class='action-button' href='restockingredientform.php?ingredientname={$row['ingredientname']}&ingredientid={$row['ingredientid']}'> Restock </a>
                  ";
                 echo "</td></tr>\r\n";
             }
@@ -150,8 +150,6 @@ require 'dbconnection.php';
                  echo "<a class='action-button' href='hidesupplier.php?supplierid={$row1['supplierid']}'>Hide</a>/
                 ";
              }
-             echo "<a class='action-button' href='restocksupplierform.php?supplierid={$row1['supplierid']}'> Restock </a>
-                 ";
              echo "</td></tr>\r\n";
          }
 

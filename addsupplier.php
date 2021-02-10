@@ -35,22 +35,22 @@ function test_input($data)
     <form action="" method='POST'>
 
         <label for="sname">Supplier Name</label>
-        <input type="text" name="suppliername"
+        <input type="text" name="suppliername" required
                placeholder="Suppler Name."><br>
 
         <label for="iname">Ingredient Name</label>
-        <input type="text"  name="ingredientname"
+        <input type="text"  name="ingredientname" required
                placeholder="ingredient name.."><br>
 
         <label for="rname">Region Name</label>
-        <input type="text"  name="region"
+        <input type="text"  name="region" required
                placeholder="region name.."><br>
 
         <label for="pname">Price</label>
-        <input type="text"  name="baseprice" placeholder="price.."><br>
+        <input type="text"  name="baseprice" required placeholder="price.."><br>
 
         <label for="qname">Quality</label>
-        <input type="text" name="quantity" placeholder="Quantity..">
+        <input type="text" name="quantity" required placeholder="Quantity..">
         <br>
 
         <label for="qname">Available</label>

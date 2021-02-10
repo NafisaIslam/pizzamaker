@@ -50,17 +50,17 @@ function test_input($data)
         </select>
         <br>
         <label for="iname">Ingredient Name</label>
-        <input type="text" id="iname" name="ingredientname"
+        <input type="text" id="iname" name="ingredientname" required
                placeholder="ingredient name.."><br>
 
         <label for="pname">Ingredient Price</label>
-        <input type="text" id="pname" name="baseprice" placeholder="price.."><br>
+        <input type="text" id="pname" name="baseprice" required placeholder="price.."><br>
 
         <label for="rname">Region Name</label>
-        <input type="text" id="rname" name="regionname" placeholder="Region name"><br>
+        <input type="text" id="rname" name="regionname"  required placeholder="Region name"><br>
 
         <label for="qname">Quality</label>
-        <input type="text" id="qname" name="quantity" placeholder="Quantity..">
+        <input type="text" id="qname" name="quantity"  required placeholder="Quantity..">
         <br>
 
         <label for="qname">Available</label>

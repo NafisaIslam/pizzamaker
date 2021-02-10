@@ -1,8 +1,13 @@
 <?php
 require 'dbconnection.php';
+error_reporting(E_ERROR | E_PARSE);
 
+$ingredientname = "";
+if (isset($_GET['ingredientname'])) {
+    $ingredientname = $_GET['ingredientname'];
+}
 $ingredientid = 0;
-if(isset($_GET['ingredientid'])) {
+if (isset($_GET['ingredientid'])) {
     $ingredientid = $_GET['ingredientid'];
 }
 ?>
@@ -13,8 +18,15 @@ if(isset($_GET['ingredientid'])) {
 </head>
 <body>
 
-<div class= "formdata">
-    <br><h2>Restocking</h2><br>
+<div class="formdata">
+    <br>
+    <h2>Restocking</h2><br>
+
+        <?php
+        $result = pg_query($db_handle, "SELECT * from suppliers where ingredientname = '" . $ingredientname."'");
+        if ($result) {
+
+        ?>
     <table>
         <tr>
             <th> Supplier Name</th>
@@ -24,24 +36,26 @@ if(isset($_GET['ingredientid'])) {
             <th> Quantity</th>
             <th> Action</th>
         </tr>
-        <?php
-        $result = pg_query($db_handle, "SELECT * from suppliers ");
+           <?php
+            while ($row = pg_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['suppliername'] . "</td>";
+                echo "<td>" . $row['ingredientname'] . "</td>";
+                echo "<td>" . $row['region'] . "</td>";
+                echo "<td>" . $row['baseprice'] . "</td>";
+                echo "<td>" . $row['quantity'] . "</td>";
 
-        while($row = pg_fetch_assoc($result) )
-        {
-            echo "<tr>";
-            echo "<td>" . $row['suppliername'] . "</td>";
-            echo "<td>" . $row['ingredientname'] . "</td>";
-            echo "<td>" . $row['region'] . "</td>";
-            echo "<td>" . $row['baseprice'] . "</td>";
-            echo "<td>" . $row['quantity'] . "</td>";
+                echo "<td><a class='action-button' href='restocking.php?supplierid={$row['supplierid']}&ingredientid=$ingredientid'> Buy </a>";
 
-            echo "<td><a class='action-button' href='restocking.php?supplierid={$row['supplierid']}&ingredientid=$ingredientid'> Buy </a>";
-            echo "</td></tr>\r\n";
+                echo "</td></tr>\r\n";
+            }
         }
+        else echo "no supplier found for " .$ingredientname;
 
         ?>
     </table>
+
+
 </div>
 
 

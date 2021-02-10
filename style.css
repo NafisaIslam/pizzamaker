@@ -6,7 +6,14 @@
 .ind {
     color: white;
 }
-
+body{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+.ind1 {
+    color: White;
+    font-size: 60px;
+}
 a {
     text-decoration: none;
     z-index: 99999;
@@ -31,7 +38,7 @@ header {
     width: 100%;
     height: 100vh;
     background: lightblue;
-    background-image: linear-gradient( rgba(97, 47, 18, .692), rgba(97, 47, 18, .692)), url("coffee.png");
+    background-image: linear-gradient( rgba(97, 47, 18, .692), rgba(97, 47, 18, .692)), url("pizza.png");
     background-size: cover;
     background-position: center;
 }
@@ -44,7 +51,7 @@ input[type=text], select {
     border-radius: 4px;
     box-sizing: border-box;
   }
-  
+
   input[type=submit] {
     width: 100%;
     background-color:coral;
