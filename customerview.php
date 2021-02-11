@@ -1,4 +1,8 @@
 <?php
+/*
+* Project Name: Pizza House
+* Developed by Nafisa Islam
+*/
 require 'dbconnection.php';
 
 
@@ -25,7 +29,7 @@ require 'dbconnection.php';
 <div class="breadcrumb">
     <ul class="breadcrumb">
         <li><a href="index.html">Home</a></li>
-        <li><a href="#">Customerview</a></li>
+        <li>Customerview</li>
     </ul>
 </div>
 <br>
