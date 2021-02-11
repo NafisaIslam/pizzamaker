@@ -38,6 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class= "formdata">
 <br><h2>Edit Ingredients</h2><br>
+    <div class="breadcrumb">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pizzabaker.php">Pizza maker</a></li>
+            <li>Edit Ingredients</li>
+        </ul>
+    </div>
+    <br>
 
 <form action="" method = 'POST'>
 <?php

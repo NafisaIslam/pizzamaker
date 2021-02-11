@@ -1,13 +1,5 @@
 <?php
 require 'dbconnection.php';
-
-
-
-// if(pg_connection_status($db_handle) === PGSQL_CONNECTION_OK)
-// {
-//   echo "The connection to the database has been established.<br/>\r\n";
-//   //var_dump($db_handle);
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,26 +11,44 @@ require 'dbconnection.php';
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap ">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css ">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-     <h2 class = "headl">Order List </h2>
+     <h2 class = "headl">Pizza Maker Homepage</h2>
+     <div class="breadcrumb">
+         <ul class="breadcrumb">
+             <li><a href="index.html">Home</a></li>
+             <li>Pizza maker</li>
+         </ul>
+     </div>
+
+     <br><br><h2 class= "headl">Order List </h2>
      <br><table>
          <tr> 
              <th> Order Id</th>
              <th> Pizza Name</th>
              <th> Pizza Size</th>
+             <th> Ingredient List</th>
              <th> Total Price</th>
+             <th> Action</th>
          </tr>
          <?php 
-            $result3 = pg_query($db_handle, "SELECT *from orders");
+            $result3 = pg_query($db_handle, "SELECT *from orders WHERE iscomplete = 0");
 
          while($row3 = pg_fetch_assoc($result3) )
          {
              echo "<tr>";
              echo "<td>" . $row3['orderid'] . "</td>";
-             echo "<td>" . $row3['pizzaid'] . "</td>";
+
+             $pizzaNameResult = pg_query($db_handle, "SELECT *from pizzen WHERE pizzaid = ". $row3['pizzaid']);
+             if($pizzaNameResult){
+                 $pizzaNameRow = pg_fetch_assoc($pizzaNameResult);
+                 echo "<td>" . $pizzaNameRow['pizzaname'] . "</td>";
+             }else{
+                 echo "<td>" . $row3['pizzaid'] . "</td>";
+             }
+
 
              if ($row3['pizzasize'] == 3 )
              {
@@ -53,10 +63,27 @@ require 'dbconnection.php';
              echo "<td> Large</td>";
              }
 
+             /*
+              * Getting all the name of the ingredient from the ingredientlist
+              * -- Using ingredientlist[] from the order table
+              * */
+             $ingredientListString = "";
+             $ingredientListArray = json_decode(str_replace(['{', '}'], ['[', ']'], $row3['ingredientlist']));  // [[1,2],[3,4]]
+             foreach ($ingredientListArray as $ingredient){
+                 $ingredientNameResult = pg_query($db_handle, "SELECT * from ingredients WHERE ingredientid = ". $ingredient);
+                 if($ingredientNameResult){
+                     $ingredientName = pg_fetch_assoc($ingredientNameResult);
+                     $ingredientListString .= $ingredientName['ingredientname']. ", ";
+                 }else{
+                     $ingredientListString .= "";
+                 }
+             }
+
+             echo "<td>" . $ingredientListString . "</td>";
              echo "<td>" . $row3['totalprice'] . "</td>";
+             echo "<td><a class='action-button' href='bakecomplete.php?orderid={$row3['orderid']}'>Complete Order!</a></td>";
              echo "</td></tr>\r\n";
          }
-
          ?>
      </table>
 
@@ -135,7 +162,15 @@ require 'dbconnection.php';
              echo "<td>" . $row1['suppliername'] . "</td>";
              echo "<td>" . $row1['ingredientname'] . "</td>";
              echo "<td>" . $row1['baseprice'] . "</td>";
-             echo "<td>" . $row1['isavailable'] . "</td>";
+
+             if ($row1['isavailable'] == 1)
+             {
+                 echo "<td> Available </td>";
+             }
+             else
+             {
+                 echo "<td> Unavailable </td>";
+             }
 
              echo "<td><a class='action-button' href='editsupplier.php?supplierid={$row1['supplierid']}'> Edit </a>/ 
 

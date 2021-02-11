@@ -22,26 +22,32 @@ require 'dbconnection.php';
 
 <body class="boxsize">
 <h2 class="headl">Pizza House! </h2>
+<div class="breadcrumb">
+    <ul class="breadcrumb">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#">Customerview</a></li>
+    </ul>
+</div>
 <br>
-<form method="POST" action="showingredientlist.php">
+
     <table>
         <tr>
             <th> Pizza Name</th>
             <th> Price</th>
             <th> Pizza Size</th>
-            <th> Ingredients</th>
+            <th> Select Pizza</th>
         </tr>
         <?php
         $result3 = pg_query($db_handle, "SELECT *from Pizzen");
 
         while ($row3 = pg_fetch_assoc($result3)) {
-            echo "<tr>";
+            echo "<tr><form method='POST' action='showingredientlist.php'>";
             echo "<td>" . $row3['pizzaname'] . "</td>";
-            echo "<td>" . $row3['baseprice'] . "</td>";
+            echo "<td>&euro;" . $row3['baseprice'] . "</td>";
 
             echo "
          <td>
-           <select name='pizzasize'>
+           <select name='pizzasize' value='1'>
               <option value='1'>Large</option>
               <option value='2'>Medium</option>
               <option value='3'>Small</option>
@@ -49,13 +55,12 @@ require 'dbconnection.php';
          </td>";
             echo "<input type='hidden' name='pizzaid' value='{$row3['pizzaid']}'>";
             echo "<input type='hidden' name='pizzaname' value='{$row3['pizzaname']}'>";
-            echo "<td><input class='action-button' type='submit' value='Select Ingredients' /></td>";
-            echo "</td></tr>\r\n";
+            echo "<input type='hidden' name='baseprice' value='{$row3['baseprice']}'>";
+            echo "<td><input class='action-button' type='submit' value='Check Ingredients!' /></td>";
+            echo "</td></tr></form>\r\n";
         }
         ?>
     </table>
-</form>
-
 </body>
 
 </html>
