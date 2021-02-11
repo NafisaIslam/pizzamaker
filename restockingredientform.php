@@ -21,7 +21,13 @@ if (isset($_GET['ingredientid'])) {
 <div class="formdata">
     <br>
     <h2>Restocking</h2><br>
-
+    <div class="breadcrumb">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pizzabaker.php">Pizza maker</a></li>
+            <li>Restocking</li>
+        </ul>
+    </div>
         <?php
         $result = pg_query($db_handle, "SELECT * from suppliers where ingredientname = '" . $ingredientname."'");
         if ($result) {

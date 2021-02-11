@@ -33,6 +33,14 @@ function test_input($data)
 <div class="formdata">
     <br>
     <h2>Add Ingredients</h2><br>
+    <div class="breadcrumb">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pizzabaker.php">Pizza maker</a></li>
+            <li>Add Ingredients</li>
+        </ul>
+    </div>
+    <br>
 
     <form action="" method='POST'>
 

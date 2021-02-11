@@ -37,7 +37,14 @@ function test_input($data)
 <div class="formdata">
     <br>
     <h2>Edit Suppliers</h2><br>
-
+    <div class="breadcrumb">
+        <ul class="breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="pizzabaker.php">Pizza maker</a></li>
+            <li>Edit Suppliers</li>
+        </ul>
+    </div>
+    <br>
     <form action="" method='POST'>
         <?php
         $result = pg_query($db_handle, "SELECT * from suppliers where supplierid = " .$supplierid);
