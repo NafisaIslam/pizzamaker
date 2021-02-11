@@ -1,4 +1,8 @@
 <?php
+/*
+* Project Name: Pizza House
+* Developed by Fowzia Abida
+*/
 $host = "pgsql.hrz.tu-chemnitz.de";
 $port = "5432"; 
 $databaseName = "pizza_maker01";

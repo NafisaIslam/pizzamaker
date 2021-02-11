@@ -1,4 +1,8 @@
 <?php
+/*
+* Project Name: Pizza House
+* Developed by Nafisa Islam
+*/
 require 'dbconnection.php';
 error_reporting(E_ERROR | E_PARSE);
 

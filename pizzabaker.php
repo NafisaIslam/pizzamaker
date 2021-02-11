@@ -1,4 +1,8 @@
 <?php
+/*
+* Project Name: Pizza House
+* Developed by Nafisa Islam
+*/
 require 'dbconnection.php';
 ?>
 <!DOCTYPE html>
@@ -70,7 +74,7 @@ require 'dbconnection.php';
              $ingredientListString = "";
              $ingredientListArray = json_decode(str_replace(['{', '}'], ['[', ']'], $row3['ingredientlist']));  // [[1,2],[3,4]]
              foreach ($ingredientListArray as $ingredient){
-                 $ingredientNameResult = pg_query($db_handle, "SELECT * from ingredients WHERE ingredientid = ". $ingredient);
+                 $ingredientNameResult = pg_query($db_handle, "SELECT * from ingredients WHERE ingredientid = ". $ingredient. " ORDER BY ingredientname ASC");
                  if($ingredientNameResult){
                      $ingredientName = pg_fetch_assoc($ingredientNameResult);
                      $ingredientListString .= $ingredientName['ingredientname']. ", ";
@@ -80,7 +84,7 @@ require 'dbconnection.php';
              }
 
              echo "<td>" . $ingredientListString . "</td>";
-             echo "<td>" . $row3['totalprice'] . "</td>";
+             echo "<td>&euro;" . $row3['totalprice'] . "</td>";
              echo "<td><a class='action-button' href='bakecomplete.php?orderid={$row3['orderid']}'>Complete Order!</a></td>";
              echo "</td></tr>\r\n";
          }
@@ -96,6 +100,7 @@ require 'dbconnection.php';
      <br><table>
          <tr> 
              <th> Ingredient Name</th>
+             <th> Region</th>
              <th> Price</th>
              <th> Quantity</th>
              <th> Status</th>
@@ -108,7 +113,8 @@ require 'dbconnection.php';
             {
                 echo "<tr>";
                 echo "<td>" . $row['ingredientname'] . "</td>";
-                echo "<td>" . $row['baseprice'] . "</td>";
+                echo "<td>" . $row['regionname'] . "</td>";
+                echo "<td>&euro;" . $row['baseprice'] . "</td>";
                 echo "<td>" . $row['quantity'] . "</td>";
                 if ($row['isavailable'] == 1)
                 {
@@ -154,14 +160,14 @@ require 'dbconnection.php';
              <th> Action</th>
          </tr>
          <?php 
-            $result1 = pg_query($db_handle, "SELECT  *from suppliers");
+            $result1 = pg_query($db_handle, "SELECT  *from suppliers ORDER BY ingredientname ASC");
 
          while($row1 = pg_fetch_assoc($result1) )
          {
              echo "<tr>";
              echo "<td>" . $row1['suppliername'] . "</td>";
              echo "<td>" . $row1['ingredientname'] . "</td>";
-             echo "<td>" . $row1['baseprice'] . "</td>";
+             echo "<td>&euro;" . $row1['baseprice'] . "</td>";
 
              if ($row1['isavailable'] == 1)
              {
@@ -190,6 +196,41 @@ require 'dbconnection.php';
 
          ?>
      </table>
+
+     <!-- pizza table -->
+
+     <br><br><h2 class= "headl">Pizza List </h2>
+     <ul class='navman'>
+         <li>
+             <a class='action-button' href="addpizzen.php">Add Pizza</a>
+         </li>
+     </ul>
+     <br><table>
+         <tr>
+             <th> Pizza Name</th>
+             <th> Base Price</th>
+             <th> Action</th>
+         </tr>
+         <?php
+         $result1 = pg_query($db_handle, "SELECT * from pizzen");
+
+         while($row1 = pg_fetch_assoc($result1) )
+         {
+             echo "<tr>";
+             echo "<td>" . $row1['pizzaname'] . "</td>";
+             echo "<td>&euro;" . $row1['baseprice'] . "</td>";
+
+             echo "<td><a class='action-button' href='editpizzen.php?pizzaid={$row1['pizzaid']}'> Edit </a>/ 
+
+                <a class='action-button' href='removepizzen.php?pizzaid={$row1['pizzaid']}'> Remove </a>/
+                 ";
+             echo "</td></tr>\r\n";
+         }
+
+         ?>
+     </table>
+
+     <br><br><br>
 </body>
 
 </html>
